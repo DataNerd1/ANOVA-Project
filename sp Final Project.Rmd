@@ -1,0 +1,24 @@
+---
+title: "sp Final Project"
+author: "Hodo Ibrahim"
+date: "2023-04-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+waste1<-Wastedata2%>%
+  filter(Year %in% c(1991,2000,2009,2017))
+waste1
+waste1$Year<-as.factor(waste1$Year)
+model2<-lme(Recycling~Year,random=~1|County, data = waste1)
+anova(model2)
+
+posthoc<-glht(model2, linfct = mcp(Year = "Tukey"))
+summary(posthoc)
+
+```
+
